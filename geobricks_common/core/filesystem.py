@@ -3,7 +3,7 @@ import tempfile
 import uuid
 import zipfile
 import shutil
-from geobricks_core.config.config import config
+from geobricks_common.config.config import config
 
 # temporary folder
 try:
