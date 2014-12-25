@@ -1,4 +1,4 @@
 geobricks_core
 ==============
 
-Geobricks core library.
+Geobricks common library.
