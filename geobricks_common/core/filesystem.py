@@ -58,7 +58,10 @@ def get_raster_path_by_uid(uid, ext=".geotiff"):
 def get_raster_path(workspace, layername, ext=".geotiff"):
     return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext);
 
+def get_raster_path_ftp(layername, ext=".geotiff"):
+    return os.path.join(config["settings"]["folders"]["ftp"], "raster",  layername, layername + ext);
 
+# TODO not used
 def get_raster_path_by_ftp_uid(uid, ext=".geotiff"):
     l = uid.split(workspace_layer_separator) if workspace_layer_separator in uid else uid.split(":")
     return os.path.join(config["settings"]["folders"]["ftp"], l[0], l[1], l[1] + ext)
