@@ -50,21 +50,48 @@ def create_tmp_filename(extension='', filename='',  subfolder='', add_uuid=True,
         return (file_path + extension).encode('utf-8')
 
 
+def get_raster_path(raster):
+    uid = raster["uid"] if "uid" in raster else None
+    isSTORAGE = False if "isFTP" not in raster else raster["isFTP"]
+    workspace = raster["workspace"] if "workspace" in raster else None
+    layername = raster["layerName"] if "layerName" in raster else None
+    path = raster["path"] if "path" in raster else None
+
+    if path is not None:
+        return path
+
+    if isSTORAGE is False:
+        if uid is None:
+            return get_raster_path_published(workspace, layername)
+        else:
+            return get_raster_path_published_by_uid(uid)
+
+    elif isSTORAGE is True:
+        if uid is None:
+            return get_raster_path_storage(layername)
+        else:
+            return get_raster_path_storage_by_uid(uid)
+
+    return None
+
+
 # TODO: move it to the data manager?
-def get_raster_path_by_uid(uid, ext=".geotiff"):
+def get_raster_path_published_by_uid(uid, ext=".geotiff"):
     l = uid.split(workspace_layer_separator) if workspace_layer_separator in uid else uid.split(":")
     return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  l[0], l[1], l[1] + ext);
-    
-def get_raster_path(workspace, layername, ext=".geotiff"):
+
+
+def get_raster_path_published(workspace, layername, ext=".geotiff"):
     return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext);
 
-def get_raster_path_ftp(layername, ext=".geotiff"):
-    return os.path.join(config["settings"]["folders"]["ftp"], "raster",  layername, layername + ext);
+
+def get_raster_path_storage(layername, ext=".geotiff"):
+    return os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext);
+
 
 # TODO not used
-def get_raster_path_by_ftp_uid(uid, ext=".geotiff"):
-    l = uid.split(workspace_layer_separator) if workspace_layer_separator in uid else uid.split(":")
-    return os.path.join(config["settings"]["folders"]["ftp"], l[0], l[1], l[1] + ext)
+def get_raster_path_storage_by_uid(uid, ext=".geotiff"):
+    return os.path.join(config["settings"]["folders"]["storage"], "raster", uid, uid + ext)
 
 
 def zip_files(name, files, path=folder_tmp_default):

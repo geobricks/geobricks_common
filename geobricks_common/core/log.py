@@ -1,5 +1,5 @@
 import logging
-from geobricks_common.config.config import config
+from geobricks_common_test.config.config import config
 
 settings = {
     # Logging configurations
