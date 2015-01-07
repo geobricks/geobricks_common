@@ -1,11 +1,11 @@
 import logging
-from geobricks_common_test.config.config import config
+from geobricks_common.config.config import config
 
 settings = {
     # Logging configurations
     "logging": {
         "level": config["settings"]["logging"]["level"],
-        "format": "%(asctime)s | %(levelname)-8s | %(name)-20s | Line: %(lineno)-5d | %(message)s",
+        "format": "%(asctime)s | %(levelname)-8s | Line: %(lineno)-5d | %(message)s | %(name)-20s ",
         "datefmt": "%d-%m-%Y | %H:%M:%s"
     }
 }

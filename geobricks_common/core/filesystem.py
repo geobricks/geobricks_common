@@ -7,9 +7,9 @@ from geobricks_common.config.config import config
 
 # temporary folder
 try:
-    folder_tmp_default = config["settings"]["folders"]["tmp"]
+    tmp_folder = config["settings"]["folders"]["tmp"]
 except Exception, e:
-    folder_tmp_default = tempfile.gettempdir()
+    tmp_folder = tempfile.gettempdir()
 
 try:
     workspace_layer_separator = config["settings"]["folders"]["workspace_layer_separator"]
@@ -17,7 +17,7 @@ except Exception, e:
     workspace_layer_separator = ":"
 
 
-def create_tmp_filename(extension='', filename='',  subfolder='', add_uuid=True, folder_tmp=folder_tmp_default):
+def create_tmp_filename(extension='', filename='',  subfolder='', add_uuid=True, folder_tmp=tmp_folder):
     """
     :param extension: i.e. "tif"
     :param subfolder: "modis_folder"
@@ -94,7 +94,7 @@ def get_raster_path_storage_by_uid(uid, ext=".geotiff"):
     return os.path.join(config["settings"]["folders"]["storage"], "raster", uid, uid + ext)
 
 
-def zip_files(name, files, path=folder_tmp_default):
+def zip_files(name, files, path=tmp_folder):
     extension = ".zip"
     if ".zip" in name:
         extension = ""
@@ -121,3 +121,15 @@ def get_filename(filepath, extension=False):
         return path, filename, name
     else:
         return name
+
+
+def sanitize_name(name):
+    """
+    This method clean the name of a layer, should be avoided to use dots as names
+    :param name: name of the layer
+    :return: sanitized layer name
+    """
+    name = name.replace(".", "")
+    name = name.replace(" ", "_")
+    name = name.lower()
+    return name
