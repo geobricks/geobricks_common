@@ -125,6 +125,7 @@ def get_raster_path(metadata):
 
     return None
 
+
 def get_raster_path_published_by_uid(uid, ext=".geotiff"):
     l = uid.split(workspace_layer_separator) if workspace_layer_separator in uid else uid.split(":")
     return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  l[0], l[1], l[1] + ext);
@@ -136,6 +137,7 @@ def get_raster_path_published(workspace, layername, ext=".geotiff"):
 
 def get_raster_path_storage(layername, ext=".geotiff"):
     return os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext);
+
 
 def get_raster_path_storage_by_uid(uid, ext=".geotiff"):
     return os.path.join(config["settings"]["folders"]["storage"], "raster", uid, uid + ext)
