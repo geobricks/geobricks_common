@@ -100,10 +100,12 @@ def get_raster_path(metadata):
     :param metadata: JSON metadata returned by D3S
     :return: raster absolute path
     '''
+
     # if dsd is present in the metadata use it, otherwise is already passed the dsd part
     if "dsd" in metadata:
         metadata = metadata["dsd"]
 
+    # if layerName is not present the layer cannot be retrieved
     if "layerName" not in metadata:
         log.error("No layerName set in the metadata JSON")
         return None
@@ -112,7 +114,7 @@ def get_raster_path(metadata):
     layername = metadata["layerName"] if "layerName" in metadata else None
     path = metadata["path"] if "path" in metadata else None
 
-    if "datasource"  in metadata:
+    if "datasource" in metadata:
         if metadata["datasource"] == "storage":
             return get_raster_path_storage(layername)
         elif metadata["datasource"] == "geoserver":
