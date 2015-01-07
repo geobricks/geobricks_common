@@ -4,6 +4,9 @@ import uuid
 import zipfile
 import shutil
 from geobricks_common.config.config import config
+from geobricks_common.core.log import logger
+
+log = logger(__file__)
 
 # temporary folder
 try:
@@ -50,50 +53,6 @@ def create_tmp_filename(extension='', filename='',  subfolder='', add_uuid=True,
         return (file_path + extension).encode('utf-8')
 
 
-def get_raster_path(raster):
-    uid = raster["uid"] if "uid" in raster else None
-    isSTORAGE = False if "isFTP" not in raster else raster["isFTP"]
-    workspace = raster["workspace"] if "workspace" in raster else None
-    layername = raster["layerName"] if "layerName" in raster else None
-    path = raster["path"] if "path" in raster else None
-
-    if path is not None:
-        return path
-
-    if isSTORAGE is False:
-        if uid is None:
-            return get_raster_path_published(workspace, layername)
-        else:
-            return get_raster_path_published_by_uid(uid)
-
-    elif isSTORAGE is True:
-        if uid is None:
-            return get_raster_path_storage(layername)
-        else:
-            return get_raster_path_storage_by_uid(uid)
-
-    return None
-
-
-# TODO: move it to the data manager?
-def get_raster_path_published_by_uid(uid, ext=".geotiff"):
-    l = uid.split(workspace_layer_separator) if workspace_layer_separator in uid else uid.split(":")
-    return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  l[0], l[1], l[1] + ext);
-
-
-def get_raster_path_published(workspace, layername, ext=".geotiff"):
-    return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext);
-
-
-def get_raster_path_storage(layername, ext=".geotiff"):
-    return os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext);
-
-
-# TODO not used
-def get_raster_path_storage_by_uid(uid, ext=".geotiff"):
-    return os.path.join(config["settings"]["folders"]["storage"], "raster", uid, uid + ext)
-
-
 def zip_files(name, files, path=tmp_folder):
     extension = ".zip"
     if ".zip" in name:
@@ -133,3 +92,48 @@ def sanitize_name(name):
     name = name.replace(" ", "_")
     name = name.lower()
     return name
+
+
+### Get Raster Path
+def get_raster_path(metadata):
+    '''
+    :param metadata: JSON metadata returned by D3S
+    :return: raster absolute path
+    '''
+    # if dsd is present in the metadata use it, otherwise is already passed the dsd part
+    if "dsd" in metadata:
+        metadata = metadata["dsd"]
+
+    if "layerName" not in metadata:
+        log.error("No layerName set in the metadata JSON")
+        return None
+
+    workspace = metadata["workspace"] if "workspace" in metadata else None
+    layername = metadata["layerName"] if "layerName" in metadata else None
+    path = metadata["path"] if "path" in metadata else None
+
+    if "datasource"  in metadata:
+        if metadata["datasource"] == "storage":
+            return get_raster_path_storage(layername)
+        elif metadata["datasource"] == "geoserver":
+            return get_raster_path_published(workspace, layername)
+
+    if path is not None:
+        return path
+
+    return None
+
+def get_raster_path_published_by_uid(uid, ext=".geotiff"):
+    l = uid.split(workspace_layer_separator) if workspace_layer_separator in uid else uid.split(":")
+    return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  l[0], l[1], l[1] + ext);
+
+
+def get_raster_path_published(workspace, layername, ext=".geotiff"):
+    return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext);
+
+
+def get_raster_path_storage(layername, ext=".geotiff"):
+    return os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext);
+
+def get_raster_path_storage_by_uid(uid, ext=".geotiff"):
+    return os.path.join(config["settings"]["folders"]["storage"], "raster", uid, uid + ext)
