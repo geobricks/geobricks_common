@@ -3,8 +3,11 @@ import tempfile
 import uuid
 import zipfile
 import shutil
+import requests
+import json
 from geobricks_common.config.config import config
 from geobricks_common.core.log import logger
+
 
 log = logger(__file__)
 
@@ -97,13 +100,22 @@ def sanitize_name(name):
 ### Get Raster Path
 def get_raster_path(metadata):
     '''
-    :param metadata: JSON metadata returned by D3S
+    :param metadata: JSON metadata returned by D3S or uid
     :return: raster absolute path
     '''
+    log.info(metadata)
 
     # if dsd is present in the metadata use it, otherwise is already passed the dsd part
     if "dsd" in metadata:
         metadata = metadata["dsd"]
+
+    # if layerName or UID not present the layer cannot be retrieved
+    if "layerName" not in metadata and "uid" not in metadata:
+        log.error("No layerName set in the metadata JSON")
+        return None
+
+    if "uid" in metadata:
+        metadata = _get_metadata_by_uid(metadata["uid"])
 
     # if layerName is not present the layer cannot be retrieved
     if "layerName" not in metadata:
@@ -141,3 +153,14 @@ def get_raster_path_storage(layername, ext=".geotiff"):
 
 def get_raster_path_storage_by_uid(uid, ext=".geotiff"):
     return os.path.join(config["settings"]["folders"]["storage"], "raster", uid, uid + ext)
+
+# TODO Here?
+def _get_metadata_by_uid(uid, full=True, dsd=True):
+    url = config["settings"]["metadata"]["url_get_metadata_uid"].replace("<uid>", uid)
+    url += "?full=" + str(full) + "&dsd=" + str(dsd)
+    r = requests.get(url)
+    log.info(r.text)
+    log.info(r.status_code)
+    if r.status_code is not 200:
+        raise Exception(r.text)
+    return json.loads(r.text)

@@ -25,6 +25,10 @@ config = {
         "email": {
             "user":  "user",
             "password": "password"
+        },
+
+        "metadata" : {
+            "url_get_metadata_uid": "http://fenix.fao.org/d3s_dev/msd/resources/metadata/uid/<uid>",
         }
     }
 
