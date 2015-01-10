@@ -1,7 +1,7 @@
 import logging
 
-config = {
 
+config = {
 
     "settings": {
         # Logging configurations
@@ -14,9 +14,8 @@ config = {
         # Folders
         "folders": {
             "tmp": "/tmp",
-            "geoserver_datadir": "../test_data/geoserver_data_dir",
-            "distribution": "../test_data/distribution",
-            "storage": "../test_data/storage",
+            "geoserver_datadir": "../test_data/geoserver_data_dir/",
+            "storage": "../test_data/storage/",
             # this is used by the filesystem to get the (published) layers in the file system
             "workspace_layer_separator": ":"
         },
@@ -33,3 +32,5 @@ config = {
     }
 
 }
+
+

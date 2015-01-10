@@ -11,26 +11,26 @@ class GeobricksTest(unittest.TestCase):
         metadata = {
             "dsd": {
                 "datasource": "storage",
-                "layerName": "mod13a2_3857"
+                "layerName": "mod13a2_4326"
             }
         }
         path = get_raster_path(metadata)
         self.assertEqual(os.path.isfile(path), True)
 
     def test_get_raster_path_published_by_uid(self):
-        path = get_raster_path_published_by_uid("test:mod13a2_3857")
+        path = get_raster_path_published_by_uid("workspace:rice_area_3857")
         self.assertEqual(os.path.isfile(path), True)
 
     def test_get_raster_path_published(self):
-        path = get_raster_path_published("test", "mod13a2_3857")
+        path = get_raster_path_published("workspace", "rice_area_3857")
         self.assertEqual(os.path.isfile(path), True)
 
     def test_get_raster_path_storage_by_uid(self):
-        path = get_raster_path_storage_by_uid("mod13a2_3857")
+        path = get_raster_path_storage_by_uid("rice_area_4326")
         self.assertEqual(os.path.isfile(path), True)
 
     def test_get_raster_path_storage(self):
-        path = get_raster_path_storage("mod13a2_3857")
+        path = get_raster_path_storage("rice_area_4326")
         self.assertEqual(os.path.isfile(path), True)
 
 
