@@ -5,7 +5,8 @@ settings = {
     # Logging configurations
     "logging": {
         "level": config["settings"]["logging"]["level"],
-        "format": "%(asctime)s | %(levelname)-8s | Line: %(lineno)-5d | %(message)s | %(name)-20s ",
+        "format": "%(asctime)s | %(levelname)-8s | Line: %(lineno)-5d  | %(name)-20s | %(message)s",
+        # "format": "%(asctime)s | %(levelname)-8s | Line: %(lineno)-5d | %(message)s | %(name)-20s ",
         "datefmt": "%d-%m-%Y | %H:%M:%s"
     }
 }
