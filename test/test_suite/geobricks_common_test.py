@@ -1,6 +1,5 @@
 import unittest
 import os
-import json
 from geobricks_common.core.filesystem import get_raster_path, get_raster_path_published, get_raster_path_storage, get_raster_path_storage_by_uid, get_raster_path_published_by_uid
 
 
