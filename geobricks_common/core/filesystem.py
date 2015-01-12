@@ -104,6 +104,7 @@ def get_raster_path(metadata):
     :return: raster absolute path
     '''
     log.info(metadata)
+    path = None
 
     # if dsd is present in the metadata use it, otherwise is already passed the dsd part
     if "dsd" in metadata:
@@ -114,27 +115,34 @@ def get_raster_path(metadata):
         log.error("No layerName set in the metadata JSON")
         return None
 
-    if "uid" in metadata:
-        metadata = _get_metadata_by_uid(metadata["uid"])
 
     # if layerName is not present the layer cannot be retrieved
-    if "layerName" not in metadata:
-        log.error("No layerName set in the metadata JSON")
-        return None
+    # if "layerName" not in metadata:
+    #     log.error("No layerName set in the metadata JSON")
+    #     return None
 
+
+    path = get_raster_by_datasource(metadata)
+    if path is None:
+        # if nothing else didn't work check with metadata
+        if "uid" in metadata:
+            path = get_raster_by_datasource(_get_metadata_by_uid(metadata["uid"]))
+
+    metadata_path = metadata["path"] if "path" in metadata else None
+    if metadata_path is not None:
+        return metadata_path
+
+    return path
+
+
+def get_raster_by_datasource(metadata):
     workspace = metadata["workspace"] if "workspace" in metadata else None
     layername = metadata["layerName"] if "layerName" in metadata else None
-    path = metadata["path"] if "path" in metadata else None
-
     if "datasource" in metadata:
         if metadata["datasource"] == "storage":
             return get_raster_path_storage(layername)
         elif metadata["datasource"] == "geoserver":
             return get_raster_path_published(workspace, layername)
-
-    if path is not None:
-        return path
-
     return None
 
 
