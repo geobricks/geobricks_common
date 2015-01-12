@@ -11,7 +11,7 @@ class GeobricksTest(unittest.TestCase):
         metadata = {
             "dsd": {
                 "datasource": "storage",
-                "layerName": "mod13a2_4326"
+                "layerName": "rice_area_4326"
             }
         }
         path = get_raster_path(metadata)
@@ -37,3 +37,5 @@ class GeobricksTest(unittest.TestCase):
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(GeobricksTest)
     unittest.TextTestRunner(verbosity=2).run(suite)
+
+
