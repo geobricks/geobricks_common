@@ -85,6 +85,10 @@ def get_filename(filepath, extension=False):
         return name
 
 
+def get_file_extension(filepath):
+    return os.path.splitext(os.path.basename(filepath))[1].split(".")[1]
+
+
 def sanitize_name(name):
     """
     This method clean the name of a layer, should be avoided to use dots as names
