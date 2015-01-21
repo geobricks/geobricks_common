@@ -2,9 +2,6 @@ from copy import deepcopy
 
 
 def dict_merge(a, b):
-    print "HERE"
-    print a
-    print b
     """
     Source: https://www.xormedia.com/recursively-merge-dictionaries-in-python/
     """
