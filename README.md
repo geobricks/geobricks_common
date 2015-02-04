@@ -35,8 +35,8 @@ An example of main configuration contained in geobricks.common.config.config:
                 "tmp": "/tmp",
                 #"geoserver_datadir": "/tmp",
                 "geoserver_datadir": "/geoserver_data_dir",
-                "distribution": "../distribution_folder",
-                "storage": "../storage_folder"
+                "distribution": "/distribution_folder",
+                "storage": "/storage_folder"
             },
 
             # Email configurations (for now uses gmail as default client)
