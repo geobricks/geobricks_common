@@ -8,8 +8,11 @@ Geobricks common library handle some functionalities that are used by different 
 
 ## Linux
 
+```python
+
 pip install geobrickscommon
 
+```
 
 ## Example of configuration
 
