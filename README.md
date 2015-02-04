@@ -36,9 +36,7 @@ An example of main configuration contained in geobricks.common.config.config:
                 #"geoserver_datadir": "/tmp",
                 "geoserver_datadir": "/geoserver_data_dir",
                 "distribution": "../distribution_folder",
-                "storage": "../storage_folder",
-                # this is used by the filesystem to get the (published) layers in the file system
-                "workspace_layer_separator": ":"
+                "storage": "../storage_folder"
             },
 
             # Email configurations (for now uses gmail as default client)
