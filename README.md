@@ -8,7 +8,7 @@ Geobricks common library handle some functionalities that are used by different 
 
 ## Linux
 
-pip install rasterio
+pip install geobrickscommon
 
 
 ## Example of configuration
