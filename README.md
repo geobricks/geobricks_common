@@ -1,7 +1,17 @@
-Geeobricks Common
+Geobricks Common
 ==============
 
 Geobricks common library handle some functionalities that are used by different components, like the logging, folders structure and email service.
+
+
+# Installation
+
+## Linux
+
+pip install rasterio
+
+
+## Example of configuration
 
 An example of main configuration contained in geobricks.common.config.config:
 
