@@ -1,7 +1,7 @@
 Geobricks Common
 ==============
 
-Geobricks common library handle some functionalities that are used by different components, like the logging, folders structure and email service.
+Geobricks common library handle some functionalities that are used by different Geobricks components, like the logging, folders structure and email service.
 
 
 # Installation
@@ -47,7 +47,7 @@ An example of main configuration contained in geobricks.common.config.config:
                 "password": "password"
             },
 
-            # metadata D3S service used to get a resource using its UID
+            # optional metadata D3S service used to get a resource using its UID
             "metadata": {
                 "url_get_metadata_uid": "http://localhost:7788/d3s/msd/resources/metadata/uid/<uid>",
             }
