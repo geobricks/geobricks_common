@@ -34,14 +34,14 @@ def discovery():
     return Response(json.dumps(out), content_type='application/json; charset=utf-8')
 
 
-@app.route('/filesystem/storage/<layerName>', methods=['GET'])
+@app.route('/path/storage/<layerName>', methods=['GET'])
 @cross_origin(origins='*', headers=['Content-Type'])
 def filesystem_storage_layerName(layerName):
     result = filesystem.get_raster_path_storage(layerName)
     return Response(json.dumps({ "path": result}), content_type='application/json; charset=utf-8')
 
 
-@app.route('/filesystem/geoserver/<workspace>/<layerName>', methods=['GET'])
+@app.route('/path/geoserver/<workspace>/<layerName>', methods=['GET'])
 @cross_origin(origins='*', headers=['Content-Type'])
 def filesystem_geoserver_workspace_layerName(workspace, layerName):
     result = filesystem.get_raster_path_published(workspace, layerName)
