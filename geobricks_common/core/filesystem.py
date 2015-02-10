@@ -151,11 +151,17 @@ def get_raster_by_datasource(metadata):
 
 
 def get_raster_path_published(workspace, layername, ext=".geotiff"):
-    return os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext);
+    path = os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext)
+    if not os.path.isfile(path):
+        log.warn("File on geoserver doesn't exists: " + path)
+    return path
 
 
 def get_raster_path_storage(layername, ext=".geotiff"):
-    return os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext);
+    path = os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext)
+    if not os.path.isfile(path):
+        log.warn("File on storage doesn't exists: " + path)
+    return path
 
 
 # TODO Here?

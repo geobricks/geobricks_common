@@ -3,6 +3,15 @@ import logging
 
 config = {
 
+    # To be used by Flask: DEVELOPMENT ONLY
+    "debug": True,
+
+    # Flask host: DEVELOPMENT ONLY
+    "host": "localhost",
+
+    # Flask port: DEVELOPMENT ONLY
+    "port": 5907,
+
     "settings": {
         # Logging configurations
         "logging": {
