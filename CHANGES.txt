@@ -5,3 +5,8 @@ v0.0.4, 13-01-2015 -- Initial release.
 v0.0.5, 13-01-2015 -- Initial release.
 v0.0.5.1, 13-01-2015 -- Initial release.
 v0.0.5.2, 13-01-2015 -- Initial release.
+v0.0.5.3, 10-02-2015 -- Added rest services.
+v0.0.5.4, 10-02-2015 -- Added rest services.
+v0.0.5.5, 10-02-2015 -- Added rest services.
+v0.0.5.6, 10-02-2015 -- Added missing dependency.
+v0.0.5.7, 10-02-2015 -- Added missing dependency.

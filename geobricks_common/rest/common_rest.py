@@ -1,17 +1,15 @@
 import json
 from flask import Blueprint
 from flask import Response
-from flask import request
 from flask.ext.cors import cross_origin
-from geobricks_common.config.config import config
 
 from geobricks_common.core import filesystem
 
-app = Blueprint(__name__, __name__)
+app = Blueprint("geobricks_common", "geobricks_common")
 
 
-@app.route('/')
-@cross_origin(origins='*')
+@app.route('/', methods=['GET'])
+@cross_origin(origins='*', headers=['Content-Type'])
 def root():
     """
     Root REST service.
@@ -19,8 +17,8 @@ def root():
     """
     return 'Welcome to Geobricks Common!'
 
-@app.route('/discovery/')
-@cross_origin(origins='*')
+@app.route('/discovery/', methods=['GET'])
+@cross_origin(origins='*', headers=['Content-Type'])
 def discovery():
     """
     Discovery service available for all Geobricks libraries that describes the plug-in.

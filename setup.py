@@ -3,7 +3,7 @@ from setuptools import find_packages
 
 setup(
     name='GeobricksCommon',
-    version='0.0.5.3',
+    version='0.0.5.7',
     author='Simone Murzilli; Guido Barbaglia',
     author_email='geobrickspy@gmail.com',
     packages=find_packages(),
@@ -12,7 +12,8 @@ setup(
     description='Geobricks common library.',
     install_requires=[
         'flask',
-        'flask-cors'
+        'flask-cors',
+        'requests'
     ],
     url='http://pypi.python.org/pypi/GeobricksCommon/',
     keywords=['geobricks']
