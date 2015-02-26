@@ -72,7 +72,7 @@ def zip_files(name, files, path=tmp_folder):
 
 
 def make_archive(dir_to_zip, output_filename, archive_type='zip'):
-    shutil.make_archive(output_filename, archive_type, dir_to_zip)
+    return shutil.make_archive(output_filename, format=archive_type, root_dir=dir_to_zip)
 
 
 def get_filename(filepath, extension=False):
