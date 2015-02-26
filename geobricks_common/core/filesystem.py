@@ -101,6 +101,62 @@ def sanitize_name(name):
     return name
 
 
+### Get Vector Path
+def get_vector_path(metadata):
+    '''
+    :param metadata: JSON metadata returned by D3S or uid
+    :return: raster absolute path
+    '''
+    log.info(metadata)
+    path = None
+
+    # if dsd is present in the metadata use it, otherwise is already passed the dsd part
+    if "dsd" in metadata:
+        metadata = metadata["dsd"]
+
+    # if layerName or UID not present the layer cannot be retrieved
+    if "layerName" not in metadata and "uid" not in metadata:
+        log.error("No layerName set in the metadata JSON")
+        return None
+
+
+    # if layerName is not present the layer cannot be retrieved
+    # if "layerName" not in metadata:
+    #     log.error("No layerName set in the metadata JSON")
+    #     return None
+
+
+    path = get_vector_by_datasource(metadata)
+    if path is None:
+        # if nothing else didn't work check with metadata
+        if "uid" in metadata:
+            path = get_vector_by_datasource(_get_metadata_by_uid(metadata["uid"]))
+
+    metadata_path = metadata["path"] if "path" in metadata else None
+    if metadata_path is not None:
+        return metadata_path
+
+    return path
+
+
+def get_vector_by_datasource(metadata):
+    workspace = metadata["workspace"] if "workspace" in metadata else None
+    layername = metadata["layerName"] if "layerName" in metadata else None
+    if "datasource" in metadata:
+        if metadata["datasource"] == "storage":
+            return get_vector_path_storage(layername)
+        elif metadata["datasource"] == "geoserver":
+            msg = "Shapefiles are not handled in Geoserver at the moment. Metadata " + metadata["layerName"] + " not valid."
+            raise Exception(msg)
+    return None
+
+def get_vector_path_storage(layername, ext=".shp"):
+    path = os.path.join(config["settings"]["folders"]["storage"], "vector",  layername, layername + ext)
+    if not os.path.isfile(path):
+        log.error("File on storage doesn't exists: " + path)
+    return path
+
+
 ### Get Raster Path
 def get_raster_path(metadata):
     '''
@@ -153,14 +209,14 @@ def get_raster_by_datasource(metadata):
 def get_raster_path_published(workspace, layername, ext=".geotiff"):
     path = os.path.join(config["settings"]["folders"]["geoserver_datadir"], "data",  workspace, layername, layername + ext)
     if not os.path.isfile(path):
-        log.warn("File on geoserver doesn't exists: " + path)
+        log.error("File on geoserver doesn't exists: " + path)
     return path
 
 
 def get_raster_path_storage(layername, ext=".geotiff"):
     path = os.path.join(config["settings"]["folders"]["storage"], "raster",  layername, layername + ext)
     if not os.path.isfile(path):
-        log.warn("File on storage doesn't exists: " + path)
+        log.error("File on storage doesn't exists: " + path)
     return path
 
 
