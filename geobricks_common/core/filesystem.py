@@ -164,7 +164,9 @@ def get_raster_path(metadata):
     :return: raster absolute path
     '''
     log.info(metadata)
-    path = None
+    if "path" in metadata:
+        # TODO: should be here directly or at the end?
+        return metadata["path"]
 
     # if dsd is present in the metadata use it, otherwise is already passed the dsd part
     if "dsd" in metadata:
@@ -187,10 +189,6 @@ def get_raster_path(metadata):
         # if nothing else didn't work check with metadata
         if "uid" in metadata:
             path = get_raster_by_datasource(_get_metadata_by_uid(metadata["uid"]))
-
-    metadata_path = metadata["path"] if "path" in metadata else None
-    if metadata_path is not None:
-        return metadata_path
 
     return path
 
