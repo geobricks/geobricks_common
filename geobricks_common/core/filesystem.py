@@ -166,6 +166,7 @@ def get_raster_path(metadata):
     log.info(metadata)
     if "path" in metadata:
         # TODO: should be here directly or at the end?
+        # TODO: check for relative paths?
         return metadata["path"]
 
     # if dsd is present in the metadata use it, otherwise is already passed the dsd part
