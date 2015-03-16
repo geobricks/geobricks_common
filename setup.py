@@ -11,6 +11,7 @@ setup(
     long_description=open('README.md').read(),
     description='Geobricks common library.',
     install_requires=[
+        'watchdog',
         'flask',
         'flask-cors',
         'requests'
