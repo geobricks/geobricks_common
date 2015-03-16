@@ -12,3 +12,4 @@ v0.0.5.6, 10-02-2015 -- Added missing dependency.
 v0.0.5.7, 10-02-2015 -- Added missing dependency.
 v0.0.5.8, 10-02-2015 -- Changed REST service name.
 v0.0.6, 10-02-2015 -- Changed REST service name.
+v0.0.7, 16-03-2015 -- added watchdog dependency.
