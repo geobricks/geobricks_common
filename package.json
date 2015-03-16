@@ -1,10 +1,10 @@
 {
-   "name": "geobricks_rest_engine",
+   "name": "geobricks_common",
    "label": {
-      "en": "REST Engine"
+      "en": "Geobricks Commons"
    },
    "language": "Python",
-   "description": "Geobricks REST Engine.",
+   "description": "Geobricks core library.",
    "license": "GPL2",
    "homepage": "http://geobricks.org/",
    "keywords": [
@@ -27,7 +27,7 @@
    ],
    "repository": {
       "type": "git",
-      "url": "https://github.com/geobricks/geobricks_rest_engine"
+      "url": "https://github.com/geobricks/geobricks_common"
    },
    "devDependencies": {
       "grunt": "~0.4.5",
