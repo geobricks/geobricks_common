@@ -108,7 +108,10 @@ def get_vector_path(metadata):
     :return: raster absolute path
     '''
     log.info(metadata)
-    path = None
+    if "path" in metadata:
+        # TODO: should be here directly or at the end?
+        # TODO: check for relative paths?
+        return metadata["path"]
 
     # if dsd is present in the metadata use it, otherwise is already passed the dsd part
     if "dsd" in metadata:
