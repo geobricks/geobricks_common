@@ -146,9 +146,10 @@ def get_vector_by_datasource(metadata):
     workspace = metadata["workspace"] if "workspace" in metadata else None
     layername = metadata["layerName"] if "layerName" in metadata else None
     if "datasource" in metadata:
-        if metadata["datasource"] == "storage":
+        # TODO: handle exception better (i.e. postgis and geoserver togheter)
+        if "storage" in metadata["datasource"]:
             return get_vector_path_storage(layername)
-        elif metadata["datasource"] == "geoserver":
+        elif "geoserver" in metadata["datasource"]:
             msg = "Shapefiles are not handled in Geoserver at the moment. Metadata " + metadata["layerName"] + " not valid."
             raise Exception(msg)
     return None
@@ -187,13 +188,11 @@ def get_raster_path(metadata):
     #     log.error("No layerName set in the metadata JSON")
     #     return None
 
-
     path = get_raster_by_datasource(metadata)
     if path is None:
         # if nothing else didn't work check with metadata
         if "uid" in metadata:
             path = get_raster_by_datasource(_get_metadata_by_uid(metadata["uid"]))
-
     return path
 
 
@@ -201,9 +200,10 @@ def get_raster_by_datasource(metadata):
     workspace = metadata["workspace"] if "workspace" in metadata else None
     layername = metadata["layerName"] if "layerName" in metadata else None
     if "datasource" in metadata:
-        if metadata["datasource"] == "storage":
+        # TODO: handle exception better (i.e. postgis and geoserver togheter)
+        if "storage" in metadata["datasource"]:
             return get_raster_path_storage(layername)
-        elif metadata["datasource"] == "geoserver":
+        elif "geoserver" in metadata["datasource"]:
             return get_raster_path_published(workspace, layername)
     return None
 

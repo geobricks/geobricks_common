@@ -3,15 +3,27 @@ import os
 from geobricks_common.core.filesystem import get_raster_path, get_raster_path_published, get_raster_path_storage, get_vector_path_storage, get_vector_path
 
 
-
 class GeobricksTest(unittest.TestCase):
 
     # Raster
-    def test_get_raster_path(self):
+    def test_get_raster_path_storage_datasource(self):
         metadata = {
             "dsd": {
-                "datasource": "storage",
+                "datasource": ["storage"],
                 "layerName": "rice_area_4326"
+            }
+        }
+        path = get_raster_path(metadata)
+        # this is used to normalize relative path used during test
+        path = os.path.normpath(os.path.join(os.path.dirname(__file__), path))
+        self.assertEqual(os.path.isfile(path), True)
+
+    def test_get_raster_path_geoserver_datasource(self):
+        metadata = {
+            "dsd": {
+                "datasource": ["geoserver"],
+                "workspace": "workspace",
+                "layerName": "rice_area_3857"
             }
         }
         path = get_raster_path(metadata)
@@ -34,15 +46,14 @@ class GeobricksTest(unittest.TestCase):
     # Vector
     def test_get_vector_path_storage(self):
         path = get_vector_path_storage("gaul0_malta_4326")
-        print path
         # this is used to normalize relative path used during test
         path = os.path.normpath(os.path.join(os.path.dirname(__file__), path))
         self.assertEqual(os.path.isfile(path), True)
 
-    def test_get_vector_path_storage(self):
+    def test_get_vector_path_storage_datasource(self):
         metadata = {
             "dsd": {
-                "datasource": "storage",
+                "datasource": ["storage"],
                 "layerName": "gaul0_malta_4326"
             }
         }
