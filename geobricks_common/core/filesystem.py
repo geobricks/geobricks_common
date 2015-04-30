@@ -25,6 +25,7 @@ except Exception, e:
 
 def create_tmp_filename(extension='', filename='',  subfolder='', add_uuid=True, folder_tmp=tmp_folder):
     """
+    Create the path for a tmp file and filename
     :param extension: i.e. "tif"
     :param subfolder: "modis_folder"
     :param filename: "modis"
@@ -32,18 +33,9 @@ def create_tmp_filename(extension='', filename='',  subfolder='', add_uuid=True,
     :param folder_tmp: if not specified it takes the default tmp folder of the os.
     :return: a path to a tmp file
     """
-
-    """
-    Create the path for a tmp file and filename
-
-    @type path: string
-    @param path: path from the tmp folder
-    @type extension: extension
-    @param extension: i.e. .geotiff
-    """
     if extension != '' and "." not in extension: extension = "." + extension
     folder_path = os.path.join(folder_tmp, subfolder)
-    if subfolder is not '':
+    if subfolder is not '' and subfolder is not None:
         try:
             os.makedirs(folder_path)
         except Exception, e:
@@ -70,6 +62,39 @@ def zip_files(name, files, path=tmp_folder):
     zf.close()
     return zip_path
 
+
+# create zip file with subfolders
+def createZip(outputFilePath, pathsToZip, archiveType="zip", zipType=zipfile.ZIP_DEFLATED):
+    """
+    Create a zip file with a list of files or folders
+    :param outputFilePath: path to the output zip file (without .zip). If None it creates a tmp zipfile
+    :param pathsToZip: array containing the paths of folders to zip
+    :param archiveType: "zip" (the only currently supported)
+    :param zipType: i.e. zipfile.ZIP_DEFLATED
+    :return: the path to the zipped file
+    """
+    if outputFilePath is None:
+        outputFilePath = create_tmp_filename(".zip")
+    zipfilename = "%s.%s" % (outputFilePath, archiveType)
+    log.info("zip filename: %s" % zipfilename)
+    zfile = zipfile.ZipFile(os.path.join(zipfilename), 'w', zipType)
+    for path in pathsToZip:
+        log.info("processing: %s" % path)
+        if not os.path.exists(path):
+            log.error("ERROR, folder doesn't exists: %s" % path)
+
+        if os.path.isdir(path):
+            # rootlen => zipped files don't have a deep file tree
+            rootlen = len(path) + 1
+            for base, dirs, files in os.walk(path):
+                for file in files:
+                    dirname = os.path.split(path)[1]
+                    fn = os.path.join(base, file)
+                    zfile.write(fn, os.path.join(dirname, fn[rootlen:]))
+        else:
+            zfile.write(path, os.path.basename(path))
+    zfile.close()
+    return zipfilename
 
 def make_archive(dir_to_zip, output_filename, archive_type='zip'):
     return shutil.make_archive(output_filename, format=archive_type, root_dir=dir_to_zip)
