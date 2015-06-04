@@ -76,23 +76,28 @@ def createZip(outputFilePath, pathsToZip, archiveType="zip", zipType=zipfile.ZIP
     if outputFilePath is None:
         outputFilePath = create_tmp_filename(".zip")
     zipfilename = "%s.%s" % (outputFilePath, archiveType)
-    log.info("zip filename: %s" % zipfilename)
+    # log.info("zip filename: %s" % zipfilename)
     zfile = zipfile.ZipFile(os.path.join(zipfilename), 'w', zipType)
     for path in pathsToZip:
-        log.info("processing: %s" % path)
+        # log.info("processing: %s" % path)
         if not os.path.exists(path):
             log.error("ERROR, folder doesn't exists: %s" % path)
 
-        if os.path.isdir(path):
-            # rootlen => zipped files don't have a deep file tree
-            rootlen = len(path) + 1
-            for base, dirs, files in os.walk(path):
-                for file in files:
-                    dirname = os.path.split(path)[1]
-                    fn = os.path.join(base, file)
-                    zfile.write(fn, os.path.join(dirname, fn[rootlen:]))
-        else:
-            zfile.write(path, os.path.basename(path))
+        try:
+            if os.path.isdir(path):
+                # rootlen => zipped files don't have a deep file tree
+                rootlen = len(path) + 1
+                for base, dirs, files in os.walk(path):
+                    for file in files:
+                        dirname = os.path.split(path)[1]
+                        fn = os.path.join(base, file)
+                        zfile.write(fn, os.path.join(dirname, fn[rootlen:]))
+            else:
+                zfile.write(path, os.path.basename(path))
+        except Exception, e:
+            print e
+            log.error(e)
+            pass
     zfile.close()
     return zipfilename
 
