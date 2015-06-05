@@ -1,4 +1,4 @@
-watchdog,
-flask,
-flask-cors,
+watchdog
+flask
+flask-cors
 requests
